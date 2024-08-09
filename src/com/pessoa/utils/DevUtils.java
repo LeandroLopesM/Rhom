@@ -5,12 +5,15 @@ import java.time.LocalDate;
 import com.pessoa.PessoaFísica;
 import com.pessoa.PessoaJurídica;
 
+
 public final class DevUtils {
-	static enum ClassT {
+	
+	public enum ClassT {
 		P_FIS,
 		P_JUR,
 		END
 	}
+	
 	
 	public static Object getDefault( ClassT t ) {
 		switch( t ) {
@@ -28,37 +31,71 @@ public final class DevUtils {
 		}
 	}
 	
-	public static String parseBadJSON( String json ) {
-		StringBuilder back = new StringBuilder(json);
-//		int index = back.indexOf(",");
-//		int incount = 0;
-//	    while (index != -1) {
-//	        back.replace(index, index + ",".length(), ",\n\t");
-//	        index += ",\n".length(); // Move to the end of the replacement
-//	        index = back.indexOf(",", index);
-//	    }
-	    
-	    int i = 0;
-	    int id = 0;
-	    for( char c : json.toCharArray() ) {
-	    	if( c == ',' ) {
-	    		i++;
-	    		back.insert(i, "\n");
-	    		int e = id;    		
-	    		
-	    		while(e != 0) {
-	    			back.insert(i, "\t");
-	    			i++;
-	    			e--;
-	    		}
-	    	}
-	    	if( c == '{' ) id++;
-	    	if( c == '}' ) id--;
-	    		
-	    	
-	    	i++;
-	    }
-		
-		return back.toString();
+	
+	
+	public static String stringize( Object o ) {
+		if( o instanceof PessoaFísica ) {
+			PessoaFísica p = (PessoaFísica) o;
+			return  """
+					%s = {
+					    Pessoa = {
+					        Nome = "%s",
+					        Nascimento = %s,  
+					        Endereço = {
+					            Rua = "%s",
+					            Bairro = "%s",
+					            Número = %d,
+					            Cidade = %s,
+					            Estado = %s,
+					            CEP = %s
+					        }
+					    },
+					    CPF = %s
+					};
+					""".formatted( p.getClass().getSimpleName(),
+								   p.getNome(),
+								   p.getNascimento(),
+								   p.getEndereço().getRua(),
+								   p.getEndereço().getBairro(),
+								   p.getEndereço().getNúmero(),
+								   p.getEndereço().getCidade(),
+								   p.getEndereço().getEstado(),
+								   p.getEndereço().getCEP(),
+								   p.getCpf() );
+		}
+		else if( o instanceof PessoaJurídica  ) {
+			PessoaJurídica p = (PessoaJurídica) o;
+			return  """
+					%s = {
+					    Pessoa = {
+					        Nome = "%s",
+					        Nascimento = %s,  
+					        Endereço = {
+					            Rua = "%s",
+					            Bairro = "%s",
+					            Número = %d,
+					            Cidade = %s,
+					            Estado = %s,
+					            CEP = %s
+					        }
+					    },
+					    NomeFalso = "%s",
+					    CPF = %s
+					};
+					""".formatted( p.getClass().getSimpleName(),
+								   p.getNome(),
+								   p.getNascimento(),
+								   p.getEndereço().getRua(),
+								   p.getEndereço().getBairro(),
+								   p.getEndereço().getNúmero(),
+								   p.getEndereço().getCidade(),
+								   p.getEndereço().getEstado(),
+								   p.getEndereço().getCEP(),
+								   p.getNomeFantasia(),
+								   p.getCnpj());
+		}
+		else {
+			return null;
+		}
 	}
 }
