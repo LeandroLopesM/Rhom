@@ -2,6 +2,8 @@ package com.pessoa.utils;
 
 import java.time.LocalDate;
 
+import javax.management.RuntimeErrorException;
+
 import com.pessoa.PessoaFísica;
 import com.pessoa.PessoaJurídica;
 
@@ -15,16 +17,21 @@ public final class DevUtils {
 	}
 	
 	
-	public static Object getDefault( ClassT t ) {
+	public static Object getDefault( ClassT t ) throws EstadoInválido {
 		switch( t ) {
 			case P_FIS: {
-				return new PessoaFísica( "John Doe", LocalDate.parse("2000-01-01"), "11122233344", (Endereço) getDefault(ClassT.END) );
+				return new PessoaFísica( "John Doe", LocalDate.parse("2000-01-01"), "11122233344", "Nowhere Ave.", "Null blvd.", 123, "BlankVille", "BLANK", "11111222" );
 			} 
 			case END: {
-				return new Endereço( "Nowhere Ave.", "Null blvd.", 123, "BlankVille", "BLANK", "11111222" );
+				try {
+				   return new Endereço( "Nowhere Ave.", "Null blvd.", 123, "BlankVille", "BLANK", "11111222" );
+				} catch (EstadoInválido e) {
+				   e.printStackTrace();
+				}
+
 			} 
 			case P_JUR: {
-				return new PessoaJurídica( "John Doe", LocalDate.parse("2000-01-01"), "11222333444455", "Null Inc.", (Endereço)getDefault(ClassT.END) );
+				return new PessoaJurídica( "John Doe", LocalDate.parse("2000-01-01"), "11222333444455", "Null Inc.", "Nowhere Ave.", "Null blvd.", 123, "BlankVille", "BLANK", "11111222" );
 			} 
 			default: return null;
 				
@@ -60,8 +67,8 @@ public final class DevUtils {
 								   p.getEndereço().getNúmero(),
 								   p.getEndereço().getCidade(),
 								   p.getEndereço().getEstado(),
-								   p.getEndereço().getCEP(),
-								   p.getCpf() );
+								   Utils.formatCEP(p.getEndereço().getCEP()),
+								   Utils.formatCPF(p.getCpf()) );
 		}
 		else if( o instanceof PessoaJurídica  ) {
 			PessoaJurídica p = (PessoaJurídica) o;
@@ -79,8 +86,8 @@ public final class DevUtils {
 					            CEP = %s
 					        }
 					    },
-					    NomeFalso = "%s",
-					    CPF = %s
+					    NomeFantasia = "%s",
+					    CNPJ = %s
 					};
 					""".formatted( p.getClass().getSimpleName(),
 								   p.getNome(),
@@ -90,9 +97,9 @@ public final class DevUtils {
 								   p.getEndereço().getNúmero(),
 								   p.getEndereço().getCidade(),
 								   p.getEndereço().getEstado(),
-								   p.getEndereço().getCEP(),
+								   Utils.formatCEP(p.getEndereço().getCEP()),
 								   p.getNomeFantasia(),
-								   p.getCnpj());
+								   Utils.formatCNPJ(p.getCnpj()));
 		}
 		else {
 			return null;

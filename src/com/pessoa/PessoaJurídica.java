@@ -7,8 +7,11 @@ public class PessoaJurídica extends Pessoa {
    private String nomeFantasia;
 
    public PessoaJurídica() { super(); }
-   public PessoaJurídica(String nome, LocalDate nascimento, String cnpj, String nomeFantasia, Endereço endereço) {
-      super(nome,nascimento, endereço);
+   public PessoaJurídica(String nome, LocalDate nascimento, String cnpj, String nomeFantasia, String rua, String bairro, int número, String cidade,
+         String estado, String CEP) {
+      super(nome,nascimento, rua, bairro, 
+                             número, cidade,
+                             estado, CEP );
       this.cnpj         = cnpj;
       this.nomeFantasia = nomeFantasia;
    }

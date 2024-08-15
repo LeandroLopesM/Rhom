@@ -6,8 +6,11 @@ public class PessoaFísica extends Pessoa {
    private String cpf;
 
    public PessoaFísica() { super(); }
-   public PessoaFísica(String nome, LocalDate nascimento, String cpf,  Endereço endereço) {
-      super(nome,nascimento, endereço);
+   public PessoaFísica(String nome, LocalDate nascimento, String cpf, String rua, String bairro, int número, String cidade,
+         String estado, String CEP) {
+      super(nome,nascimento, rua, bairro, 
+                             número, cidade,
+                             estado, CEP );
       
       this.cpf = cpf;
    }

@@ -2,7 +2,7 @@ package com.pessoa.utils;
 
 import java.util.Objects;
 
-public class Endereço {
+final class Endereço {
    private String rua;
    private String bairro;
    private int número;
@@ -10,14 +10,16 @@ public class Endereço {
    private String estado;
    private String CEP;
    
-   public Endereço() { }
-   public Endereço(String rua, String bairro, int número, String cidade, String estado, String cEP) {
+   private Endereço() { }
+   private Endereço(String rua, String bairro, int número, String cidade,
+                   String estado, String CEP) throws EstadoInválido {
+      if( estado.length() != 2 ) throw new EstadoInválido(estado + " não é reconhecido como estado válido.");
       this.rua = rua;
       this.bairro = bairro;
       this.número = número;
       this.cidade = cidade;
       this.estado = estado;
-      CEP = cEP;
+      this.CEP = CEP;
    }
    
    public String getRua() {
@@ -57,16 +59,17 @@ public class Endereço {
       CEP = cEP;
    }
    
-//   @Override
-//   public String toString() {
-//      return this.getClass().getCanonicalName() + " = [ " +
-//            "rua: " + rua + ", " +
-//            "bairro: " + bairro+ ", " +
-//            "número: " + número+ ", " +
-//            "cidade: " + cidade+ ", " +
-//            "estado: " + estado+ ", " +
-//            "cep: " + Utils.formatCEP(CEP) + "]";
-//   }
+   protected static Endereço create( String rua, String bairro, int número, String cidade,
+         String estado, String CEP ) {
+      try {
+         return new Endereço( rua, bairro, 
+               número, cidade,
+               estado, CEP );
+      } catch (EstadoInválido e) {
+         System.err.println("Estado inválido");
+         return null;
+      }
+   } 
    
    @Override
    public String toString() {

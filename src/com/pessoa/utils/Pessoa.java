@@ -7,10 +7,14 @@ public abstract class Pessoa {
    protected Endereço endereço;
 
    public Pessoa() {}
-   public Pessoa(String nome, LocalDate nascimento, Endereço endereço) {
+   public Pessoa(String nome, LocalDate nascimento,
+                 String rua, String bairro, int número, String cidade,
+                 String estado, String CEP) {
       this.nome       = nome;
       this.nascimento = nascimento;
-      this.endereço = endereço;
+      this.endereço = Endereço.create( rua, bairro, 
+                                    número, cidade,
+                                    estado, CEP );
    }
    
    
