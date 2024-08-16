@@ -6,12 +6,8 @@ public class PessoaFísica extends Pessoa {
    private String cpf;
 
    public PessoaFísica() { super(); }
-   public PessoaFísica(String nome, LocalDate nascimento, String cpf, String rua, String bairro, int número, String cidade,
-         String estado, String CEP) {
-      super(nome,nascimento, rua, bairro, 
-                             número, cidade,
-                             estado, CEP );
-      
+   public PessoaFísica(String nome, LocalDate nascimento, String cpf) {
+      super(nome,nascimento);
       this.cpf = cpf;
    }
 
@@ -38,5 +34,11 @@ public class PessoaFísica extends Pessoa {
       
       
       return true;
+   }
+   
+   @Override
+   public PessoaFísica setEndereço( String rua, String bairro, int número, String cidade, String estado, String CEP ) {
+	   super.setEndereço(rua, bairro, número, cidade, estado, CEP);
+	   return this;
    }
 }

@@ -7,11 +7,8 @@ public class PessoaJurídica extends Pessoa {
    private String nomeFantasia;
 
    public PessoaJurídica() { super(); }
-   public PessoaJurídica(String nome, LocalDate nascimento, String cnpj, String nomeFantasia, String rua, String bairro, int número, String cidade,
-         String estado, String CEP) {
-      super(nome,nascimento, rua, bairro, 
-                             número, cidade,
-                             estado, CEP );
+   public PessoaJurídica(String nome, LocalDate nascimento, String cnpj, String nomeFantasia) {
+      super(nome,nascimento);
       this.cnpj         = cnpj;
       this.nomeFantasia = nomeFantasia;
    }
@@ -28,11 +25,11 @@ public class PessoaJurídica extends Pessoa {
    
    @Override
    public String toString() {
-	   return this.getClass().getSimpleName() + " = {" +
-	    		  " Core = \"" + super.toString() + "\", " +
-	    		  "CNPJ = " + Utils.formatCNPJ(cnpj) + ", " +
-	    		  "NomeFantasia = \"" + nomeFantasia + "\", " +
-	    		  "}";       
+       return this.getClass().getSimpleName() + " = {" +
+                  " Core = \"" + super.toString() + "\", " +
+                  "CNPJ = " + Utils.formatCNPJ(cnpj) + ", " +
+                  "NomeFantasia = \"" + nomeFantasia + "\", " +
+                  "}";       
    }
    
    @Override
@@ -48,5 +45,11 @@ public class PessoaJurídica extends Pessoa {
       
       
       return true;
+   }
+   
+   @Override
+   public PessoaJurídica setEndereço( String rua, String bairro, int número, String cidade, String estado, String CEP ) {
+       super.setEndereço(rua, bairro, número, cidade, estado, CEP);
+       return this;
    }
 }
